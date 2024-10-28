@@ -32,8 +32,8 @@ public class EventBookingServlet extends HttpServlet {
         String eventName = (String) req.getSession().getAttribute("eventName");
         String numTicketsString = (String) req.getSession().getAttribute("numTickets");
 
-        if (eventName == null || numTicketsString == null) {
-            resp.sendRedirect("/"); // Redirect to event list if session attributes are missing
+        if (eventName == null || numTicketsString == null || eventName.isEmpty() || numTicketsString.isEmpty()) {
+            resp.sendRedirect("/");
             return;
         }
 
