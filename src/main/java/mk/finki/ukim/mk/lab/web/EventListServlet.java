@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.WebConnection;
 import mk.finki.ukim.mk.lab.service.EventService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -14,7 +13,6 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "eventListServlet", urlPatterns = "/")
 public class EventListServlet extends HttpServlet {
@@ -46,10 +44,13 @@ public class EventListServlet extends HttpServlet {
 
         if (searchText != null) {
             if (minRatingStr != null) {
-                context.setVariable("events", eventService.eventSearch(searchText, Double.parseDouble(minRatingStr)));
+                context.setVariable("events", eventService.searchEventsByTextAndScore(searchText, Double.parseDouble(minRatingStr)));
             } else {
                 context.setVariable("events", eventService.searchEvents(searchText));
             }
+        } else if (minRatingStr != null) {
+            context.setVariable("events", eventService.searchEventsByScore(Double.parseDouble(minRatingStr)));
+
         } else {
             context.setVariable("events", eventService.listAll());
         }

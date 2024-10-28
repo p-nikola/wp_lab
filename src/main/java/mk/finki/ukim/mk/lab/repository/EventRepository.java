@@ -17,9 +17,13 @@ public class EventRepository {
         return DataHolder.events.stream().filter(i -> i.getName().toLowerCase().contains(text.toLowerCase()) || i.getDescription().toLowerCase().contains(text.toLowerCase())).collect(Collectors.toList());
     }
 
-    public List<Event> eventSearch(String text, double rating) {
+    public List<Event> searchEventsByTextAndScore(String text, double rating) {
         return DataHolder.events.stream().filter(i -> i.getName().toLowerCase().contains(text.toLowerCase()) && i.getPopularityScore() <= rating).collect(Collectors.toList());
     }
 
+
+    public List<Event> searchEventsByScore(double rating) {
+        return DataHolder.events.stream().filter( i->i.getPopularityScore() <= rating).collect(Collectors.toList());
+    }
 
 }
