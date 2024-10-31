@@ -3,6 +3,7 @@ package mk.finki.ukim.mk.lab.boostrap;
 
 import jakarta.annotation.PostConstruct;
 import mk.finki.ukim.mk.lab.model.Event;
+import mk.finki.ukim.mk.lab.model.EventBooking;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 public class DataHolder {
 
     public static List<Event> events= new ArrayList<>();
+    public static List<EventBooking> eventBookingList= new ArrayList<>();
 
 
     @PostConstruct

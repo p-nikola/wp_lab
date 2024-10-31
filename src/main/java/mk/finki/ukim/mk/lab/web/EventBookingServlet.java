@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.WebConnection;
+import mk.finki.ukim.mk.lab.boostrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.EventBooking;
 import mk.finki.ukim.mk.lab.service.EventBookingService;
 import org.thymeleaf.context.WebContext;
@@ -14,6 +15,7 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @WebServlet(name = "eventBookingServlet", urlPatterns = "/eventBooking")
@@ -43,6 +45,10 @@ public class EventBookingServlet extends HttpServlet {
 
         EventBooking booking = eventBookingService.placeBooking(eventName, attendeeName, attendeeAddress, numTickets);
 
+        req.getSession().setAttribute("bookingObj", booking);
+
+        eventBookingService.addBooking(eventName, attendeeName, attendeeAddress, numTickets);
+
 
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext()).buildExchange(req, resp);
 
@@ -50,6 +56,7 @@ public class EventBookingServlet extends HttpServlet {
 
         context.setVariable("booking",booking);
         context.setVariable("clientIp",attendeeAddress);
+        context.setVariable("eventBookings",eventBookingService.listAll());
 
         springTemplateEngine.process("bookingConfirmation.html", context, resp.getWriter());
 
@@ -58,10 +65,13 @@ public class EventBookingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
         req.getSession().removeAttribute("eventName");
         req.getSession().removeAttribute("numTickets");
 
-        resp.sendRedirect("/");
+
+        resp.sendRedirect("/listBookings");
 
     }
 }
