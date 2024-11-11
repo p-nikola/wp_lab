@@ -45,7 +45,7 @@
       <td th:text="${booking.numberOfTickets}">Number of Tickets</td>
     </tr>
   </table>
-  <form th:method="POST">
+  <form th:method="get" th:action="@{'/eventbooking/listbookings'}">
     <input type="submit" value="Confirm">
   </form>
 

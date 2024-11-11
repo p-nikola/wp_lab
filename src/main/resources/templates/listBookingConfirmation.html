@@ -9,7 +9,7 @@
 
 
 <h2>Search Events</h2>
-<form th:method="GET">
+<form th:method="GET" th:action="@{/eventbooking/searchbookings}">
     <label for="searchText">Event Name Contains:</label>
     <input type="text" id="searchText" name="searchText"><br/><br/>
 
@@ -32,6 +32,10 @@
     <br/>
 
 </div>
+
+<form th:method="get" th:action="@{'/events'}">
+    <input type="submit" value="Back to Events">
+</form>
 
 
 </body>

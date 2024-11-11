@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(name = "eventBookingServlet", urlPatterns = "/eventBooking")
+@WebServlet(name = "eventBookingServlet", urlPatterns = "/servlet/eventBooking")
 public class EventBookingServlet extends HttpServlet {
 
     private final SpringTemplateEngine springTemplateEngine;
@@ -71,7 +71,7 @@ public class EventBookingServlet extends HttpServlet {
         req.getSession().removeAttribute("numTickets");
 
 
-        resp.sendRedirect("/listBookings");
+        resp.sendRedirect("/servlet/listBookings");
 
     }
 }

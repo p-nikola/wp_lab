@@ -14,7 +14,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name = "eventListServlet", urlPatterns = "/")
+@WebServlet(name = "eventListServlet", urlPatterns = "/servlet/eventlist")
 public class EventListServlet extends HttpServlet {
 
 
@@ -68,7 +68,7 @@ public class EventListServlet extends HttpServlet {
         req.getSession().setAttribute("numTickets", numTickets);
 
 
-        resp.sendRedirect("/eventBooking");
+        resp.sendRedirect("/servlet/eventBooking");
 
     }
 }
