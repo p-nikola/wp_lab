@@ -25,10 +25,10 @@
 </form>
 
 
-<div th:each="event : ${eventBookings}">
-    Name: <span th:text="${event.getEventName()}">Event Name</span>
-    Attendee Name: <span th:text="${event.getAttendeeName()}">Description</span>,
-    Number of tickets: <span th:text="${event.getNumberOfTickets()}">0.0</span>
+<div th:each="eB : ${eventBookings}">
+    Name: <span th:text="${eB.getEvent().getName()}">Event Name</span>
+    Attendee Name: <span th:text="${eB.getAttendeeName()}">Description</span>,
+    Number of tickets: <span th:text="${eB.getNumberOfTickets()}">0.0</span>
     <br/>
 
 </div>

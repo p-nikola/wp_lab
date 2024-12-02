@@ -19,5 +19,7 @@ public interface EventService {
 
     void hasIncremented(Long id);
 
+    List<Event> findAllByLocation(Long locationId);
+
 
 }

@@ -35,10 +35,9 @@ public class EventBookingController {
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
             String attendeeAddress = request.getRemoteAddr();
-            EventBooking eventBooking = eventBookingService.placeBooking(event.getName(), "Petko Petkovski", attendeeAddress, numTickets);
+            EventBooking eventBooking = eventBookingService.placeBooking(event.getId(), "Petko Petkovski", attendeeAddress, numTickets);
             model.addAttribute("booking", eventBooking);
             model.addAttribute("clientIp", attendeeAddress);
-            eventBookingService.addBooking(eventBooking.getEventName(), eventBooking.getAttendeeName(), eventBooking.getAttendeeAddress(), Math.toIntExact(eventBooking.getNumberOfTickets()));
 
             return "bookingConfirmation";
         }
@@ -70,7 +69,11 @@ public class EventBookingController {
                 model.addAttribute("eventBookings", eventBookingService.searchEventsByEventName(searchText));
             }
         } else {
-            model.addAttribute("eventBookings", eventBookingService.listAll());
+            if (numTickets != null) {
+                model.addAttribute("eventBookings", eventBookingService.searchEventsByNumTickets(Integer.parseInt(numTickets)));
+            } else {
+                model.addAttribute("eventBookings", eventBookingService.listAll());
+            }
         }
 
         return "listBookingConfirmation";

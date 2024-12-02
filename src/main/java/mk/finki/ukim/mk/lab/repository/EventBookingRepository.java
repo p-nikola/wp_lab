@@ -17,9 +17,9 @@ public class EventBookingRepository {
         return DataHolder.eventBookingList;
     }
 
-    public List<EventBooking> searchEventsByEventName(String text) {
-        return DataHolder.eventBookingList.stream().filter(i -> i.getEventName().toLowerCase().contains(text.toLowerCase())).collect(Collectors.toList());
-    }
+//    public List<EventBooking> searchEventsByEventName(String text) {
+//        return DataHolder.eventBookingList.stream().filter(i -> i.getEventName().toLowerCase().contains(text.toLowerCase())).collect(Collectors.toList());
+//    }
 
     public List<EventBooking> searchEventsByAtendeeName(String name) {
         return DataHolder.eventBookingList.stream().filter(i -> i.getAttendeeName().toLowerCase().contains(name.toLowerCase()) ).collect(Collectors.toList());
@@ -30,9 +30,9 @@ public class EventBookingRepository {
         return DataHolder.eventBookingList.stream().filter( i->i.getNumberOfTickets() == tickets).collect(Collectors.toList());
     }
 
-    public List<EventBooking> searchEvent(String eventName,String atendeeName,int tickets) {
-        return DataHolder.eventBookingList.stream().filter( i->i.getEventName().toLowerCase().contains(eventName.toLowerCase()) && i.getAttendeeName().toLowerCase().contains(atendeeName.toLowerCase()) && i.getNumberOfTickets() == tickets).collect(Collectors.toList());
-    }
+//    public List<EventBooking> searchEvent(String eventName,String atendeeName,int tickets) {
+//        return DataHolder.eventBookingList.stream().filter( i->i.getEventName().toLowerCase().contains(eventName.toLowerCase()) && i.getAttendeeName().toLowerCase().contains(atendeeName.toLowerCase()) && i.getNumberOfTickets() == tickets).collect(Collectors.toList());
+//    }
 
 
 

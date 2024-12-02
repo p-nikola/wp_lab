@@ -3,8 +3,8 @@ package mk.finki.ukim.mk.lab.service.impl;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.model.exceptions.LocationNotFoundException;
-import mk.finki.ukim.mk.lab.repository.EventRepository;
-import mk.finki.ukim.mk.lab.repository.LocationRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.EventRepositoryJPA;
+import mk.finki.ukim.mk.lab.repository.jpa.LocationRepositoryJPA;
 import mk.finki.ukim.mk.lab.service.EventService;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +15,12 @@ import java.util.Optional;
 public class EventServiceimpl implements EventService {
 
 
-    private final EventRepository eventRepository;
-    private final LocationRepository locationRepository;
+    private final EventRepositoryJPA eventRepository;
+    private final LocationRepositoryJPA locationRepositoryJPA;
 
-    public EventServiceimpl(EventRepository eventRepository, LocationRepository locationRepository) {
+    public EventServiceimpl(EventRepositoryJPA eventRepository, LocationRepositoryJPA locationRepositoryJPA) {
         this.eventRepository = eventRepository;
-        this.locationRepository = locationRepository;
+        this.locationRepositoryJPA = locationRepositoryJPA;
     }
 
     @Override
@@ -35,28 +35,45 @@ public class EventServiceimpl implements EventService {
 
     @Override
     public List<Event> searchEvents(String text) {
-        return eventRepository.searchEvents(text);
+        return eventRepository.searchByName(text);
     }
 
     @Override
     public List<Event> searchEventsByTextAndScore(String text, double rating) {
-        return eventRepository.searchEventsByTextAndScore(text, rating);
+        return eventRepository.searchByNameAndPopularityScore(text, rating);
     }
 
     @Override
     public List<Event> searchEventsByScore(double rating) {
-        return eventRepository.searchEventsByScore(rating);
+        return eventRepository.searchByPopularityScore(rating);
     }
 
     @Override
-    public Optional<Event> saveEvent(Long id,String name, String description, double popularityScore, Long locationId) {
+    public Optional<Event> saveEvent(Long id, String name, String description, double popularityScore, Long locationId) {
 
-        Location location = locationRepository.findById(locationId).orElseThrow(() -> new LocationNotFoundException(locationId));
+        Location location = locationRepositoryJPA.findById(locationId)
+                .orElseThrow(() -> new LocationNotFoundException(locationId));
 
-        return eventRepository.saveEvent(id,name, description, popularityScore, location);
+        Event event;
+
+        if (id != null) {
+            // Editing an existing event
+            event = eventRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Event with ID " + id + " not found"));
+            // Update the fields
+            event.setName(name);
+            event.setDescription(description);
+            event.setPopularityScore(popularityScore);
+            event.setLocation(location);
+        } else {
+            // Adding a new event
+            event = new Event(name, description, popularityScore, location);
+        }
+
+        // Save the event (updates if it has an ID, inserts otherwise)
+        return Optional.of(eventRepository.save(event));
 
     }
-
 
 
     @Override
@@ -66,8 +83,18 @@ public class EventServiceimpl implements EventService {
 
     @Override
     public void hasIncremented(Long id) {
-        eventRepository.upVoteEvent(id);
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Event with ID " + id + " not found"));
+        event.setPopularityScore(event.getPopularityScore() + 1.0);
+        event.setHasUpvote(true);
+
+        eventRepository.save(event);
 
 
+    }
+
+    @Override
+    public List<Event> findAllByLocation(Long locationId) {
+        return eventRepository.findAllByLocation_Id(locationId);
     }
 }

@@ -1,15 +1,29 @@
 package mk.finki.ukim.mk.lab.model;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@Entity
+@NoArgsConstructor
 public class EventBooking {
-    private String eventName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String attendeeName;
     private String attendeeAddress;
     private Long numberOfTickets;
+    @ManyToOne
+    private Event event;
 
+    public EventBooking(String attendeeName, String attendeeAddress, Long numberOfTickets, Event event) {
+        this.attendeeName = attendeeName;
+        this.attendeeAddress = attendeeAddress;
+        this.numberOfTickets = numberOfTickets;
+        this.event = event;
+    }
 }

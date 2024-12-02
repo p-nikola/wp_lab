@@ -1,7 +1,9 @@
 package mk.finki.ukim.mk.lab.service.impl;
 
+import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.EventBooking;
-import mk.finki.ukim.mk.lab.repository.EventBookingRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.EventBookingRepositoryJPA;
+import mk.finki.ukim.mk.lab.repository.jpa.EventRepositoryJPA;
 import mk.finki.ukim.mk.lab.service.EventBookingService;
 import org.springframework.stereotype.Service;
 
@@ -11,44 +13,59 @@ import java.util.List;
 public class EventBookingServiceimpl implements EventBookingService {
 
 
-    private final EventBookingRepository eventBookingRepository;
+    private final EventBookingRepositoryJPA eventBookingRepository;
+    private final EventRepositoryJPA eventRepository;
 
-    public EventBookingServiceimpl(EventBookingRepository eventBookingRepository) {
+    public EventBookingServiceimpl(EventBookingRepositoryJPA eventBookingRepository, EventRepositoryJPA eventRepository) {
         this.eventBookingRepository = eventBookingRepository;
+        this.eventRepository = eventRepository;
     }
 
     @Override
-    public EventBooking placeBooking(String eventName, String attendeeName, String attendeeAddress, int numberOfTickets) {
-        return new EventBooking(eventName, attendeeName, attendeeAddress, (long) numberOfTickets);
+    public EventBooking placeBooking(String eventId, String attendeeName, String attendeeAddress, int numberOfTickets) {
+//        Event event = eventRepository.findById(eventName).orElseThrow(() -> new IllegalArgumentException("Event with name " + eventName + " not found"));
+//
+//        EventBooking eventBooking = new EventBooking(attendeeName, attendeeAddress, (long) numberOfTickets, event);
+//        return eventBookingRepository.save(eventBooking);
+        return null;
+    }
+
+    @Override
+    public EventBooking placeBooking(Long eventId, String attendeeName, String attendeeAddress, int numberOfTickets) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event with id " + eventId + " not found"));
+
+        EventBooking eventBooking = new EventBooking(attendeeName, attendeeAddress, (long) numberOfTickets, event);
+        return eventBookingRepository.save(eventBooking);
     }
 
     @Override
     public void addBooking(String eventName, String attendeeName, String attendeeAddress, int numberOfTickets) {
-        eventBookingRepository.addEvent(new EventBooking(eventName, attendeeName, attendeeAddress, (long) numberOfTickets));
+        //eventBookingRepository.addEvent(new EventBooking(eventName, attendeeName, attendeeAddress, (long) numberOfTickets));
+
     }
 
     @Override
     public List<EventBooking> listAll() {
-        return eventBookingRepository.listAll();
+        return eventBookingRepository.findAll();
     }
 
     @Override
     public List<EventBooking> searchEventsByEventName(String text) {
-        return eventBookingRepository.searchEventsByEventName(text);
+        return eventBookingRepository.findByEvent_NameContainingIgnoreCase(text);
     }
 
     @Override
     public List<EventBooking> searchEventsByAtendeeName(String name) {
-        return eventBookingRepository.searchEventsByAtendeeName(name);
+        return eventBookingRepository.findByAttendeeNameContainingIgnoreCase(name);
     }
 
     @Override
     public List<EventBooking> searchEventsByNumTickets(int tickets) {
-        return eventBookingRepository.searchEventsByNumTickets(tickets);
+        return eventBookingRepository.findByNumberOfTickets(tickets);
     }
 
     @Override
-    public List<EventBooking> searchEvent(String eventName, String atendeeName, int tickets) {
-        return eventBookingRepository.searchEvent(eventName,atendeeName,tickets);
+    public List<EventBooking> searchEvent(String eventName, String attendeeName, int tickets) {
+        return eventBookingRepository.findByEventNameAndAttendeeNameAndNumberOfTickets(eventName, attendeeName, tickets);
     }
 }

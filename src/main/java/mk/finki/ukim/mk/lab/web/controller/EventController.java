@@ -34,13 +34,14 @@ public class EventController {
             model.addAttribute("error", error);
         }
         model.addAttribute("events", eventService.listAll());
+        model.addAttribute("locations",locationService.listAll());
 
         return "listEvents";
 
     }
 
     @GetMapping("/searchevent")
-    public String searchEvents(@RequestParam(required = false) String searchText, @RequestParam(required = false) String minRating, Model model) {
+    public String searchEvents(@RequestParam(required = false) String searchText, @RequestParam(required = false) String minRating,@RequestParam(required = false)Long locationId, Model model) {
         if (searchText != null && searchText.isEmpty()) {
             searchText = null;
         }
@@ -48,8 +49,10 @@ public class EventController {
             minRating = null;
         }
 
-
-        if (searchText != null) {
+        if (locationId != null) {
+            // Filter by location first
+            model.addAttribute("events", eventService.findAllByLocation(locationId));
+        } else if (searchText != null) {
             if (minRating != null) {
                 model.addAttribute("events", eventService.searchEventsByTextAndScore(searchText, Double.parseDouble(minRating)));
             } else {
@@ -57,10 +60,12 @@ public class EventController {
             }
         } else if (minRating != null) {
             model.addAttribute("events", eventService.searchEventsByScore(Double.parseDouble(minRating)));
-
         } else {
             model.addAttribute("events", eventService.listAll());
         }
+
+        model.addAttribute("locations", locationService.listAll());
+
 
         return "listEvents";
     }
