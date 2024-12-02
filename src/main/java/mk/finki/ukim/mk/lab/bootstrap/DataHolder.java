@@ -1,4 +1,4 @@
-package mk.finki.ukim.mk.lab.boostrap;
+package mk.finki.ukim.mk.lab.bootstrap;
 
 
 import jakarta.annotation.PostConstruct;
@@ -27,16 +27,16 @@ public class DataHolder {
         locations.add(new Location("Exhibition Center", "202 Maple St", "600", "Exhibition space for art and expos"));
 
         // Initialize events with locations
-        events.add(new Event("Music Festival", "Annual outdoor music festival", 85.0, locations.get(2)));
-        events.add(new Event("Art Expo", "Modern art exhibition", 70.5, locations.get(4)));
-        events.add(new Event("Science Fair", "Science projects and innovation", 65.0, locations.get(0)));
-        events.add(new Event("Tech Conference", "Latest in tech and gadgets", 90.0, locations.get(1)));
-        events.add(new Event("Food Fest", "Enjoy cuisines from around the world", 75.0, locations.get(2)));
-        events.add(new Event("Film Screening", "Indie films showcase", 68.5, locations.get(3)));
-        events.add(new Event("Book Fair", "Meet authors and publishers", 72.0, locations.get(4)));
-        events.add(new Event("Marathon", "Annual charity run", 80.0, locations.get(2)));
-        events.add(new Event("Dance Workshop", "Learn from professional dancers", 60.0, locations.get(0)));
-        events.add(new Event("Comedy Night", "Stand-up comedy from top comedians", 88.5, locations.get(3)));
+        events.add(new Event("Music Festival", "Annual outdoor music festival", 1, locations.get(2)));
+        events.add(new Event("Art Expo", "Modern art exhibition", 1.0, locations.get(4)));
+        events.add(new Event("Science Fair", "Science projects and innovation", 1.0, locations.get(0)));
+        events.add(new Event("Tech Conference", "Latest in tech and gadgets", 1.0, locations.get(1)));
+        events.add(new Event("Food Fest", "Enjoy cuisines from around the world", 1.0, locations.get(2)));
+        events.add(new Event("Film Screening", "Indie films showcase", 1.0, locations.get(3)));
+        events.add(new Event("Book Fair", "Meet authors and publishers", 1.0, locations.get(4)));
+        events.add(new Event("Marathon", "Annual charity run", 1.0, locations.get(2)));
+        events.add(new Event("Dance Workshop", "Learn from professional dancers", 1.0, locations.get(0)));
+        events.add(new Event("Comedy Night", "Stand-up comedy from top comedians", 1.0, locations.get(3)));
     }
 
 

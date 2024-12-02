@@ -17,5 +17,7 @@ public interface EventService {
     Optional<Event> saveEvent(Long id,String name, String description, double popularityScore, Long locationId);
     void deleteById(Long id);
 
+    void hasIncremented(Long id);
+
 
 }

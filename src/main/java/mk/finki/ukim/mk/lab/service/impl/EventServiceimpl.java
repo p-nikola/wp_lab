@@ -63,4 +63,11 @@ public class EventServiceimpl implements EventService {
     public void deleteById(Long id) {
         eventRepository.deleteById(id);
     }
+
+    @Override
+    public void hasIncremented(Long id) {
+        eventRepository.upVoteEvent(id);
+
+
+    }
 }

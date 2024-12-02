@@ -11,6 +11,7 @@ public class Event {
     private String description;
     private double popularityScore;
     private Location location;
+    private boolean hasUpvote;
 
     public Event(String name, String description, double popularityScore, Location location) {
         this.id = (long) (Math.random() * 1000);
@@ -18,5 +19,6 @@ public class Event {
         this.description = description;
         this.popularityScore = popularityScore;
         this.location = location;
+        this.hasUpvote=false;
     }
 }

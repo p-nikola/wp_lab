@@ -89,6 +89,10 @@
         transition: background-color 0.3s;" class="btn btn-sm btn-info edit-product">
                             <i class="fa fa-edit">Edit</i>
                         </a>
+                        <form th:method="post" th:action="@{'/events/increment/{id}' (id=${event.id})}" style="display:inline;">
+                            <input type="submit" class="btn btn-sm btn-danger" th:disabled="${event.hasUpvote ? 'disabled' : null}" value="Upvote">
+                        </form>
+
                     </td>
                 </tr>
                 </tbody>

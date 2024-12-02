@@ -1,5 +1,6 @@
 package mk.finki.ukim.mk.lab.web.controller;
 
+import jakarta.servlet.http.HttpSession;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.service.EventService;
@@ -9,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/events")
@@ -102,4 +106,13 @@ public class EventController {
         return "redirect:/events";
 
     }
+
+    @PostMapping("/increment/{id}")
+    public String incrementRating(@PathVariable Long id, HttpSession session) {
+
+        eventService.hasIncremented(id);
+
+        return "redirect:/events";
+    }
+
 }

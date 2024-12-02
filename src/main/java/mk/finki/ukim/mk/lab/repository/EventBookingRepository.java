@@ -1,7 +1,6 @@
 package mk.finki.ukim.mk.lab.repository;
 
-import mk.finki.ukim.mk.lab.boostrap.DataHolder;
-import mk.finki.ukim.mk.lab.model.Event;
+import mk.finki.ukim.mk.lab.bootstrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.EventBooking;
 import org.springframework.stereotype.Repository;
 

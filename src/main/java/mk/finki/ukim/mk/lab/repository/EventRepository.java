@@ -1,11 +1,10 @@
 package mk.finki.ukim.mk.lab.repository;
 
-import mk.finki.ukim.mk.lab.boostrap.DataHolder;
+import mk.finki.ukim.mk.lab.bootstrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,6 +61,18 @@ public class EventRepository {
         DataHolder.events.add(event);
         return Optional.of(event);
 
+    }
+
+    public void upVoteEvent(Long id){
+        if (id != null) {
+            Optional<Event> optionalEvent = findById(id);
+            if (optionalEvent.isPresent()) {
+                Event event = optionalEvent.get();
+                event.setPopularityScore(event.getPopularityScore()+1);
+                event.setHasUpvote(true);
+            }
+
+        }
     }
 
 }
