@@ -1,8 +1,10 @@
 package mk.finki.ukim.mk.lab.service.impl;
 
+import mk.finki.ukim.mk.lab.model.Category;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.model.exceptions.LocationNotFoundException;
+import mk.finki.ukim.mk.lab.repository.jpa.CategoryRepositroyJPA;
 import mk.finki.ukim.mk.lab.repository.jpa.EventRepositoryJPA;
 import mk.finki.ukim.mk.lab.repository.jpa.LocationRepositoryJPA;
 import mk.finki.ukim.mk.lab.service.EventService;
@@ -18,9 +20,12 @@ public class EventServiceimpl implements EventService {
     private final EventRepositoryJPA eventRepository;
     private final LocationRepositoryJPA locationRepositoryJPA;
 
-    public EventServiceimpl(EventRepositoryJPA eventRepository, LocationRepositoryJPA locationRepositoryJPA) {
+    private final CategoryRepositroyJPA categoryRepositroyJPA;
+
+    public EventServiceimpl(EventRepositoryJPA eventRepository, LocationRepositoryJPA locationRepositoryJPA, CategoryRepositroyJPA categoryRepositroyJPA) {
         this.eventRepository = eventRepository;
         this.locationRepositoryJPA = locationRepositoryJPA;
+        this.categoryRepositroyJPA = categoryRepositroyJPA;
     }
 
     @Override
@@ -49,10 +54,13 @@ public class EventServiceimpl implements EventService {
     }
 
     @Override
-    public Optional<Event> saveEvent(Long id, String name, String description, double popularityScore, Long locationId) {
+    public Optional<Event> saveEvent(Long id, String name, String description, double popularityScore, Long locationId,Long  categoryId) {
 
         Location location = locationRepositoryJPA.findById(locationId)
                 .orElseThrow(() -> new LocationNotFoundException(locationId));
+
+        Category category = categoryRepositroyJPA.findById(categoryId)
+                .orElseThrow(() -> new LocationNotFoundException(categoryId));
 
         Event event;
 
@@ -65,9 +73,10 @@ public class EventServiceimpl implements EventService {
             event.setDescription(description);
             event.setPopularityScore(popularityScore);
             event.setLocation(location);
+            event.setCategory(category);
         } else {
             // Adding a new event
-            event = new Event(name, description, popularityScore, location);
+            event = new Event(name, description, popularityScore, location,category);
         }
 
         // Save the event (updates if it has an ID, inserts otherwise)
@@ -89,12 +98,15 @@ public class EventServiceimpl implements EventService {
         event.setHasUpvote(true);
 
         eventRepository.save(event);
-
-
     }
 
     @Override
     public List<Event> findAllByLocation(Long locationId) {
         return eventRepository.findAllByLocation_Id(locationId);
+    }
+
+    @Override
+    public List<Event> findAllByCategory(Long categoryId) {
+        return eventRepository.findAllByCategory_Id(categoryId);
     }
 }

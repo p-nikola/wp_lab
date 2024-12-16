@@ -54,6 +54,24 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label >Category</label>
+          <select name="category" class="form-control">
+            <option  th:if="${event} != null"
+                     th:each="cat : ${categories}"
+                     th:selected="${event.getCategory() != null && event.getCategory().getId() == cat.getId()}"
+                     th:text="${cat.getName()}"
+                     th:value="${cat.getId()}">
+            </option>
+
+            <option  th:if="${event} == null"
+                     th:each="cat : ${categories}"
+                     th:text="${cat.getName()}"
+                     th:value="${cat.getId()}">
+            </option>
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
         <a type="button" class="btn btn-primary" href="/events">Back</a>
       </form>

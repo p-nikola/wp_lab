@@ -14,12 +14,13 @@ public interface EventService {
     List<Event> searchEventsByTextAndScore(String text, double rating);
     List<Event> searchEventsByScore(double rating);
 
-    Optional<Event> saveEvent(Long id,String name, String description, double popularityScore, Long locationId);
+    Optional<Event> saveEvent(Long id,String name, String description, double popularityScore, Long locationId,Long categoryId);
     void deleteById(Long id);
 
     void hasIncremented(Long id);
 
     List<Event> findAllByLocation(Long locationId);
+    List<Event> findAllByCategory(Long categoryId);
 
 
 }

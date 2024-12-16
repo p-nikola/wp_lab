@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class EventRepository {
     public List<Event> findAll() {
         return DataHolder.events;
@@ -38,30 +38,30 @@ public class EventRepository {
         DataHolder.events.removeIf(i -> i.getId().equals(id));
     }
 
-    public Optional<Event> saveEvent(Long id, String name, String description, double popularityScore, Location location) {
-
-
-        if (id != null) {
-            Optional<Event> optionalEvent = findById(id);
-            if (optionalEvent.isPresent()) {
-                Event event = optionalEvent.get();
-                event.setName(name);
-                event.setDescription(description);
-                event.setPopularityScore(popularityScore);
-                event.setLocation(location);
-                return Optional.of(event);
-            }
-
-
-        }
-
-        DataHolder.events.removeIf(i -> i.getName().equals(name));
-
-        Event event = new Event(name, description, popularityScore, location);
-        DataHolder.events.add(event);
-        return Optional.of(event);
-
-    }
+//    public Optional<Event> saveEvent(Long id, String name, String description, double popularityScore, Location location) {
+//
+//
+//        if (id != null) {
+//            Optional<Event> optionalEvent = findById(id);
+//            if (optionalEvent.isPresent()) {
+//                Event event = optionalEvent.get();
+//                event.setName(name);
+//                event.setDescription(description);
+//                event.setPopularityScore(popularityScore);
+//                event.setLocation(location);
+//                return Optional.of(event);
+//            }
+//
+//
+//        }
+//
+//        DataHolder.events.removeIf(i -> i.getName().equals(name));
+//
+//        Event event = new Event(name, description, popularityScore, location);
+//        DataHolder.events.add(event);
+//        return Optional.of(event);
+//
+//    }
 
     public void upVoteEvent(Long id){
         if (id != null) {

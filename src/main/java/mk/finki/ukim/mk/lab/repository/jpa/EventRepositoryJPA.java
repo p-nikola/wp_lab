@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface EventRepositoryJPA extends JpaRepository<Event,Long> {
     Optional<Event> findByName(String name);
     List<Event> findAllByLocation_Id(Long locationId);
+    List<Event> findAllByCategory_Id(Long categoryId);
 
     List<Event> searchByName(String name);
     List<Event> searchByNameAndPopularityScore(String name,double popularityScore);

@@ -20,6 +20,8 @@ public class EventBooking {
     @ManyToOne
     private Event event;
 
+
+
     public EventBooking(String attendeeName, String attendeeAddress, Long numberOfTickets, Event event) {
         this.attendeeName = attendeeName;
         this.attendeeAddress = attendeeAddress;

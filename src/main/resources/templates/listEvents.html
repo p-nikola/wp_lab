@@ -1,5 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Event Booking page - Welcome and choose an Event</title>
@@ -13,6 +13,19 @@
 <body>
 <header>
     <h1>Welcome to our Event Booking App</h1>
+
+    <th:block sec:authorize="isAnonymous()">
+    <form th:action="@{/login}" method="get">
+        <button type="submit">Login</button>
+    </form>
+    </th:block>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </th:block>
+
 </header>
 <main>
     <div th:if="${hasError}">
@@ -31,6 +44,14 @@
             <option th:each="loc : ${locations}"
                     th:value="${loc.id}"
                     th:text="${loc.name}">
+            </option>
+        </select>
+
+        <select id="category" name="categoryId">
+            <option value="">All Categories</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}">
             </option>
         </select>
 
@@ -54,6 +75,7 @@
                 Description: <span th:text="${event.description}">Description</span>,
                 Rating: <span th:text="${event.popularityScore}">0.0</span>,
                 Location: <span th:text="${event.location?.name}">No Location</span>
+                Category: <span th:text="${event.getCategory().getId() != null ? event.getCategory().getName() : 'No Category' }"></span>
                 <br/>
             </div>
 
@@ -82,7 +104,9 @@
                     <td style="border: 1px solid black; padding: 8px;"><span th:text="${event.description}">Description</span></td>
                     <td style="border: 1px solid black; padding: 8px;"><span th:text="${event.popularityScore}">0.0</span></td>
                     <td style="border: 1px solid black; padding: 8px;"><span th:text="${event.location?.name}">No Location</span></td>
+                    <td style="border: 1px solid black; padding: 8px;"><span th:text="${event.category != null ? event.category.getName() : 'No Category' }">No Category</span></td>
                     <td style="border: 1px solid black; padding: 8px;">
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                         <form th:method="delete" th:action="@{'/events/delete/{id}' (id=${event.id})}" style="display:inline;">
                             <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                         </form>
@@ -98,6 +122,7 @@
         transition: background-color 0.3s;" class="btn btn-sm btn-info edit-product">
                             <i class="fa fa-edit">Edit</i>
                         </a>
+                        </th:block>
                         <form th:method="post" th:action="@{'/events/increment/{id}' (id=${event.id})}" style="display:inline;">
                             <input type="submit" class="btn btn-sm btn-danger" th:disabled="${event.hasUpvote ? 'disabled' : null}" value="Upvote">
                         </form>
@@ -109,6 +134,7 @@
 
         </div>
         <br>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         <div>
             <a href="/events/add-event" style="
         display: inline-block;
@@ -124,6 +150,7 @@
                 Add new product
             </a>
         </div>
+        </th:block>
 
 
     </div>
